@@ -1,6 +1,7 @@
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
+val exposed_version: String by project
 
 plugins {
     application
@@ -30,4 +31,8 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+
+    implementation("org.jetbrains.exposed:exposed:core:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed:dao:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed:jdbc:$exposed_version")
 }
