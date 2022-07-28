@@ -32,7 +32,9 @@ dependencies {
 
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
 
-    implementation("org.jetbrains.exposed:exposed:core:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed:dao:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed:jdbc:$exposed_version")
+    implementation("mysql:mysql-connector-java:8.0.29")
+
+    implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
 }
