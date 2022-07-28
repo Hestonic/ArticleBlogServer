@@ -4,7 +4,8 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import ru.articleblog.features.login.configureLoginRouting
 import ru.articleblog.features.register.configureRegisterRouting
-import ru.articleblog.plugins.*
+import ru.articleblog.plugins.configureRouting
+import ru.articleblog.plugins.configureSerialization
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
