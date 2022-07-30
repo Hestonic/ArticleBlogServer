@@ -3,6 +3,7 @@ package ru.articleblog
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import org.jetbrains.exposed.sql.Database
+import ru.articleblog.features.articles.configureArticlesRouting
 import ru.articleblog.features.login.configureLoginRouting
 import ru.articleblog.features.register.configureRegisterRouting
 import ru.articleblog.plugins.configureRouting
@@ -20,6 +21,7 @@ fun main() {
         configureRouting()
         configureLoginRouting()
         configureRegisterRouting()
+        configureArticlesRouting()
         configureSerialization()
     }.start(wait = true)
 }
