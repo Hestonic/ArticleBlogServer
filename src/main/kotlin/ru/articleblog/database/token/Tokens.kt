@@ -3,12 +3,11 @@ package ru.articleblog.database.token
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
-import ru.articleblog.database.users.Users
 
 object Tokens : Table("tokens") {
-    private val id = Users.integer("id")
-    private val login = Users.varchar("login", 16)
-    private val token = Users.varchar("token", 50)
+    private val id = Tokens.integer("id")
+    private val login = Tokens.varchar("login", 16)
+    private val token = Tokens.varchar("token", 50)
 
     fun insert(tokenDTO: TokenDTO) {
         transaction {
