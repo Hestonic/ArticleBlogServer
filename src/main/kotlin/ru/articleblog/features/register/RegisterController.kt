@@ -31,6 +31,8 @@ object RegisterController {
                 )
             } catch (e: ExposedSQLException) {
                 call.respond(HttpStatusCode.Conflict, "User already exists")
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.BadRequest, "Can't create user ${e.localizedMessage}")
             }
 
             Tokens.insert(TokenDTO(id = 0, login = registerReceiveRemote.login, token = token))
