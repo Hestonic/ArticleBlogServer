@@ -22,14 +22,10 @@ object Users : Table("users") {
         return try {
             transaction {
                 val userModel = Users.select { Users.login.eq(login) }.single()
-                UserDTO(
-                    login = userModel[Users.login],
-                    password = userModel[password]
-                )
+                UserDTO(login = userModel[Users.login], password = userModel[password])
             }
         } catch (e: Exception) {
             null
         }
-
     }
 }
