@@ -6,7 +6,7 @@ import io.ktor.server.routing.*
 fun Application.configureRegisterRouting() {
 
     routing {
-        post("/register") {
+        post("/api/register") {
             RegisterController.registerNewUser(call)
         }
     }
