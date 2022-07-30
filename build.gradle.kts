@@ -33,6 +33,8 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
 
     implementation("mysql:mysql-connector-java:8.0.29")
+    implementation("org.ktorm:ktorm-core:3.2.0")
+    implementation("org.ktorm:ktorm-support-mysql:3.2.0")
 
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
