@@ -1,8 +1,6 @@
 package ru.articleblog.database.articles_info
 
-import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object ArticlesInfo : Table("article_info") {
@@ -24,14 +22,26 @@ object ArticlesInfo : Table("article_info") {
         return try {
             transaction {
                 val articleInfoModel = ArticlesInfo.selectAll().last()
-                ArticleInfoDTO(
-                    id = articleInfoModel[ArticlesInfo.id],
-                    likes = articleInfoModel[likes],
-                    views = articleInfoModel[views],
-                )
+                resultRowToArticleInfoDto(articleInfoModel)
             }
         } catch (e: Exception) {
             null
         }
     }
+
+    fun fetchArticleInfoById(id: Int): ArticleInfoDTO? {
+        return try {
+            transaction {
+                ArticlesInfo.select { ArticlesInfo.id eq id }.map(::resultRowToArticleInfoDto).singleOrNull()
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private fun resultRowToArticleInfoDto(row: ResultRow) = ArticleInfoDTO(
+        id = row[id],
+        likes = row[likes],
+        views = row[views],
+    )
 }
