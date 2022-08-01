@@ -2,6 +2,7 @@ package ru.articleblog.database.articles_categories
 
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object ArticlesCategories : Table("articles_categories") {
@@ -17,5 +18,9 @@ object ArticlesCategories : Table("articles_categories") {
                 it[idCategory] = articlesCategoriesDTO.idCategory
             }
         }
+    }
+
+    fun fetchCategoriesIdsByArticleId(id: Int): List<Int> {
+        return transaction { ArticlesCategories.select { idArticle eq id }.map { row -> row[idCategory] } }
     }
 }
