@@ -1,5 +1,6 @@
 package ru.articleblog.database.articles
 
+import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
@@ -26,15 +27,25 @@ object Articles : Table("articles") {
         return try {
             transaction {
                 val articleModel = Articles.selectAll().last()
-                ArticleDTO(
-                    id = articleModel[Articles.id],
-                    text = articleModel[text],
-                    tittle = articleModel[tittle],
-                    idArticleInfo = articleModel[idArticleInfo],
-                )
+                resultRowToArticle(articleModel)
             }
         } catch (e: Exception) {
             null
         }
     }
+
+    fun fetchAllArticles(): List<ArticleDTO>? {
+        return try {
+            transaction { Articles.selectAll().map(::resultRowToArticle) }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private fun resultRowToArticle(row: ResultRow) = ArticleDTO(
+        id = row[id],
+        tittle = row[tittle],
+        text = row[text],
+        idArticleInfo = row[idArticleInfo]
+    )
 }
