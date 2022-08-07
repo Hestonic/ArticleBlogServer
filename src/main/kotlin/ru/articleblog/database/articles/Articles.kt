@@ -1,9 +1,6 @@
 package ru.articleblog.database.articles
 
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object Articles : Table("articles") {
@@ -37,6 +34,16 @@ object Articles : Table("articles") {
     fun fetchAllArticles(): List<ArticleDTO>? {
         return try {
             transaction { Articles.selectAll().map(::resultRowToArticle) }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun fetchArticleById(id: Int): ArticleDTO? {
+        return try {
+            transaction {
+                Articles.select { Articles.id eq id }.map(::resultRowToArticle).singleOrNull()
+            }
         } catch (e: Exception) {
             null
         }

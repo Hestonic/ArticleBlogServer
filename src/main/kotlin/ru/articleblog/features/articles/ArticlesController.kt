@@ -37,32 +37,48 @@ object ArticlesController {
                 )
             }
         }
-
-        // TODO: Add return the response of a successful or unsuccessful addition of an article
     }
 
     suspend fun getArticles(call: ApplicationCall) {
         Articles.fetchAllArticles()?.let { articlesListDTO ->
-            val articlesList = articlesListDTO.map {
-                val articleInfo = ArticlesInfo.fetchArticleInfoById(it.idArticleInfo)
-                val categories = ArticlesCategories.fetchCategoriesIdsByArticleId(it.id)
-                    .map { idCategory -> Categories.fetchCategoryById(idCategory) }
-                    .map { categoryDTO -> Category(id = categoryDTO.id, category = categoryDTO.category) }
-
-                Article(
-                    id = it.id,
-                    tittle = it.tittle,
-                    text = it.text,
-                    categories = categories,
-                    articleInfo = ArticleInfo(
-                        id = articleInfo?.id ?: 0,
-                        likes = articleInfo?.likes ?: 0,
-                        views = articleInfo?.views ?: 0,
-                    ),
-                )
+            val articlesList = articlesListDTO.map { articleDTO ->
+                val articleInfo = getArticleInfoById(articleDTO.idArticleInfo)
+                val categories = getArticleCategoriesByArticleId(articleDTO.id)
+                mapArticle(articleDTO, categories, articleInfo)
             }
-
             call.respond(ArticlesResponseRemote(articlesList))
         }
     }
+
+    suspend fun getArticle(call: ApplicationCall) {
+        call.parameters["id"]?.toInt()?.let { id ->
+            Articles.fetchArticleById(id)?.let { articleDTO ->
+                val articleInfo = getArticleInfoById(articleDTO.idArticleInfo)
+                val categories = getArticleCategoriesByArticleId(articleDTO.id)
+                val article = mapArticle(articleDTO, categories, articleInfo)
+                call.respond(article)
+            }
+        }
+    }
+
+    private fun getArticleInfoById(idArticleInfo: Int) = ArticlesInfo.fetchArticleInfoById(idArticleInfo)
+
+    private fun getArticleCategoriesByArticleId(articleId: Int) =
+        ArticlesCategories.fetchCategoriesIdsByArticleId(articleId)
+            .map { idCategory -> Categories.fetchCategoryById(idCategory) }
+            .map { categoryDTO -> Category(id = categoryDTO.id, category = categoryDTO.category) }
+
+    private fun mapArticle(
+        articleDTO: ArticleDTO, categories: List<Category>, articleInfoDTO: ArticleInfoDTO?,
+    ): Article = Article(
+        id = articleDTO.id,
+        tittle = articleDTO.tittle,
+        text = articleDTO.text,
+        categories = categories,
+        articleInfo = ArticleInfo(
+            id = articleInfoDTO?.id ?: 0,
+            likes = articleInfoDTO?.likes ?: 0,
+            views = articleInfoDTO?.views ?: 0,
+        ),
+    )
 }

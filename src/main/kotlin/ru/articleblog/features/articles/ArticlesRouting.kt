@@ -10,6 +10,10 @@ fun Application.configureArticlesRouting() {
             ArticlesController.getArticles(call)
         }
 
+        get("/api/articles/{id}") {
+            ArticlesController.getArticle(call)
+        }
+
         post("/api/articles/add") {
             ArticlesController.insertArticle(call)
         }
