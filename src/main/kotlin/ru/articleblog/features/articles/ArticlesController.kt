@@ -61,6 +61,12 @@ object ArticlesController {
         }
     }
 
+    suspend fun getAllCategories(call: ApplicationCall) {
+        val listCategoriesDTO = Categories.fetchAllCategories()
+        val allCategories = listCategoriesDTO.map { Category(id = it.id, category = it.category) }
+        call.respond(allCategories)
+    }
+
     private fun getArticleInfoById(idArticleInfo: Int) = ArticlesInfo.fetchArticleInfoById(idArticleInfo)
 
     private fun getArticleCategoriesByArticleId(articleId: Int) =

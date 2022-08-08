@@ -17,5 +17,9 @@ fun Application.configureArticlesRouting() {
         post("/api/articles/add") {
             ArticlesController.insertArticle(call)
         }
+
+        get("/api/categories") {
+            ArticlesController.getAllCategories(call)
+        }
     }
 }
