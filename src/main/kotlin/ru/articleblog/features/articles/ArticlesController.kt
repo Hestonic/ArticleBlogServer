@@ -19,7 +19,7 @@ object ArticlesController {
             Articles.insertArticle(
                 ArticleDTO(
                     id = 0,
-                    tittle = articleReceiveRemote.tittle,
+                    title = articleReceiveRemote.title,
                     text = articleReceiveRemote.text,
                     idArticleInfo = it.id,
                 )

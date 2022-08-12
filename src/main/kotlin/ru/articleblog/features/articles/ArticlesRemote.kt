@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ArticleReceiveRemote(
-    val tittle: String,
+    val title: String,
     val text: String,
     val categories: List<Int>,
 )
@@ -17,7 +17,7 @@ data class ArticlesResponseRemote(
 @Serializable
 data class Article(
     val id: Int,
-    val tittle: String,
+    val title: String,
     val text: String,
     val categories: List<Category>,
     val articleInfo: ArticleInfo,

@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object Articles : Table("articles") {
     private val id = Articles.integer("id")
-    private val tittle = Articles.varchar("tittle", 50)
+    private val title = Articles.varchar("title", 50)
     private val text = Articles.text("text")
     private val idArticleInfo = Articles.integer("id_article_info")
 
@@ -13,7 +13,7 @@ object Articles : Table("articles") {
         transaction {
             Articles.insert {
                 it[id] = articlesDTO.id
-                it[tittle] = articlesDTO.tittle
+                it[title] = articlesDTO.title
                 it[text] = articlesDTO.text
                 it[idArticleInfo] = articlesDTO.idArticleInfo
             }
@@ -51,7 +51,7 @@ object Articles : Table("articles") {
 
     private fun resultRowToArticle(row: ResultRow) = ArticleDTO(
         id = row[id],
-        tittle = row[tittle],
+        title = row[title],
         text = row[text],
         idArticleInfo = row[idArticleInfo]
     )
