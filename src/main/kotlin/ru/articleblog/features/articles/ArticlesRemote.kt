@@ -7,6 +7,7 @@ data class ArticleReceiveRemote(
     val title: String,
     val text: String,
     val categories: List<Int>,
+    val author: String,
 )
 
 @Serializable
@@ -21,6 +22,7 @@ data class Article(
     val text: String,
     val categories: List<Category>,
     val articleInfo: ArticleInfo,
+    val author: String,
 )
 
 @Serializable

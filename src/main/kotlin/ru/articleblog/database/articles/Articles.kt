@@ -8,6 +8,7 @@ object Articles : Table("articles") {
     private val title = Articles.varchar("title", 50)
     private val text = Articles.text("text")
     private val idArticleInfo = Articles.integer("id_article_info")
+    private val author = Articles.varchar("author", 16)
 
     fun insertArticle(articlesDTO: ArticleDTO) {
         transaction {
@@ -16,6 +17,7 @@ object Articles : Table("articles") {
                 it[title] = articlesDTO.title
                 it[text] = articlesDTO.text
                 it[idArticleInfo] = articlesDTO.idArticleInfo
+                it[author] = articlesDTO.author
             }
         }
     }
@@ -53,6 +55,7 @@ object Articles : Table("articles") {
         id = row[id],
         title = row[title],
         text = row[text],
-        idArticleInfo = row[idArticleInfo]
+        idArticleInfo = row[idArticleInfo],
+        author = row[author],
     )
 }

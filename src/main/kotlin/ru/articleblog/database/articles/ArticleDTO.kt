@@ -5,4 +5,5 @@ data class ArticleDTO(
     val title: String,
     val text: String,
     val idArticleInfo: Int,
+    val author: String,
 )

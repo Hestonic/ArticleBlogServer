@@ -23,6 +23,7 @@ object ArticlesController {
                     title = articleReceiveRemote.title,
                     text = articleReceiveRemote.text,
                     idArticleInfo = it.id,
+                    author = articleReceiveRemote.author,
                 )
             )
         }
@@ -92,5 +93,6 @@ object ArticlesController {
             likes = articleInfoDTO?.likes ?: 0,
             views = articleInfoDTO?.views ?: 0,
         ),
+        author = articleDTO.author
     )
 }
