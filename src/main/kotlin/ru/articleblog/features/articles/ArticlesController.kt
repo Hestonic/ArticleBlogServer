@@ -1,5 +1,6 @@
 package ru.articleblog.features.articles
 
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -37,6 +38,7 @@ object ArticlesController {
                 )
             }
         }
+        call.respond(HttpStatusCode.Created)
     }
 
     suspend fun getArticles(call: ApplicationCall) {
@@ -44,7 +46,11 @@ object ArticlesController {
             val articlesList = articlesListDTO.map { articleDTO ->
                 val articleInfo = getArticleInfoById(articleDTO.idArticleInfo)
                 val categories = getArticleCategoriesByArticleId(articleDTO.id)
-                mapArticle(articleDTO, categories, articleInfo)
+                if (articleDTO.text.length > 200) {
+                    val articleWithSubstring = articleDTO.copy(text = articleDTO.text.substring(0, 200).plus("..."))
+                    mapArticle(articleWithSubstring, categories, articleInfo)
+                } else mapArticle(articleDTO, categories, articleInfo)
+
             }
             call.respond(ArticlesResponseRemote(articlesList))
         }
@@ -78,7 +84,7 @@ object ArticlesController {
         articleDTO: ArticleDTO, categories: List<Category>, articleInfoDTO: ArticleInfoDTO?,
     ): Article = Article(
         id = articleDTO.id,
-        tittle = articleDTO.tittle,
+        title = articleDTO.title,
         text = articleDTO.text,
         categories = categories,
         articleInfo = ArticleInfo(
