@@ -6,6 +6,7 @@ import org.jetbrains.exposed.sql.Database
 import ru.articleblog.features.articles.configureArticlesRouting
 import ru.articleblog.features.login.configureLoginRouting
 import ru.articleblog.features.register.configureRegisterRouting
+import ru.articleblog.features.session.configureSessionRouting
 import ru.articleblog.plugins.configureRouting
 import ru.articleblog.plugins.configureSerialization
 
@@ -22,6 +23,7 @@ fun main() {
         configureLoginRouting()
         configureRegisterRouting()
         configureArticlesRouting()
+        configureSessionRouting()
         configureSerialization()
     }.start(wait = true)
 }

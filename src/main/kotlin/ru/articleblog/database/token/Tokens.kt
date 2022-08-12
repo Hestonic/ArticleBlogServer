@@ -1,7 +1,9 @@
 package ru.articleblog.database.token
 
+import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object Tokens : Table("tokens") {
@@ -18,4 +20,12 @@ object Tokens : Table("tokens") {
             }
         }
     }
+
+    fun fetchLoginByToken(token: String): String {
+        return transaction {
+            Tokens.select { Tokens.token eq token }.map(::resultRowToLoginString).single()
+        }
+    }
+
+    private fun resultRowToLoginString(row: ResultRow) = row[login]
 }
