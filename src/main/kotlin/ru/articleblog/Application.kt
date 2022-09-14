@@ -9,6 +9,7 @@ import ru.articleblog.features.register.configureRegisterRouting
 import ru.articleblog.features.session.configureSessionRouting
 import ru.articleblog.plugins.configureRouting
 import ru.articleblog.plugins.configureSerialization
+import ru.articleblog.plugins.configureCors
 
 fun main() {
     Database.connect(
@@ -19,6 +20,7 @@ fun main() {
     )
 
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
+        configureCors()
         configureRouting()
         configureLoginRouting()
         configureRegisterRouting()
