@@ -35,7 +35,7 @@ object Articles : Table("articles") {
 
     fun fetchAllArticles(): List<ArticleDTO>? {
         return try {
-            transaction { Articles.selectAll().map(::resultRowToArticle) }
+            transaction { Articles.selectAll().orderBy(Articles.id, SortOrder.DESC).map(::resultRowToArticle) }
         } catch (e: Exception) {
             null
         }
