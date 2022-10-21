@@ -51,6 +51,21 @@ object Articles : Table("articles") {
         }
     }
 
+    fun deleteArticleById(id: Int) {
+        transaction {
+            Articles.deleteWhere { Articles.id eq id }
+        }
+    }
+
+    fun updateArticleById(id: Int, articlesDTO: ArticleDTO) {
+        transaction {
+            Articles.update({ Articles.id eq id }) {
+                it[title] = articlesDTO.title
+                it[text] = articlesDTO.text
+            }
+        }
+    }
+
     private fun resultRowToArticle(row: ResultRow) = ArticleDTO(
         id = row[id],
         title = row[title],

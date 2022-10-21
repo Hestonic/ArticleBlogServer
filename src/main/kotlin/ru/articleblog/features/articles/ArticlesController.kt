@@ -30,7 +30,7 @@ object ArticlesController {
 
         Articles.fetchLastArticle()?.let { lastAddedArticle ->
             articleReceiveRemote.categories.forEach { idCategory ->
-                ArticlesCategories.insert(
+                ArticlesCategories.insertArticlesCategories(
                     ArticlesCategoriesDTO(
                         id = 0,
                         idArticle = lastAddedArticle.id,
@@ -51,7 +51,6 @@ object ArticlesController {
                     val articleWithSubstring = articleDTO.copy(text = articleDTO.text.substring(0, 200).plus("..."))
                     mapArticle(articleWithSubstring, categories, articleInfo)
                 } else mapArticle(articleDTO, categories, articleInfo)
-
             }
             call.respond(ArticlesResponseRemote(articlesList))
         }
@@ -72,6 +71,32 @@ object ArticlesController {
         val listCategoriesDTO = Categories.fetchAllCategories()
         val allCategories = listCategoriesDTO.map { Category(id = it.id, category = it.category) }
         call.respond(allCategories)
+    }
+
+    suspend fun deleteArticle(call: ApplicationCall) {
+        call.parameters["id"]?.toInt()?.let { id ->
+            Articles.deleteArticleById(id)
+            call.respond(HttpStatusCode.OK)
+        }
+        call.respond(HttpStatusCode.BadRequest)
+    }
+
+    suspend fun updateArticle(call: ApplicationCall) {
+        val articleReceiveRemote = call.receive<ArticleReceiveRemote>()
+        ArticlesInfo.fetchArticleInfoLastRecord()?.let {
+            call.parameters["id"]?.toInt()?.let { id ->
+                val articleDto = ArticleDTO(
+                    id = id,
+                    title = articleReceiveRemote.title,
+                    text = articleReceiveRemote.text,
+                    idArticleInfo = it.id,
+                    author = articleReceiveRemote.author,
+                )
+                Articles.updateArticleById(id, articleDto)
+            }
+            call.respond(HttpStatusCode.Created)
+        }
+        call.respond(HttpStatusCode.BadRequest)
     }
 
     private fun getArticleInfoById(idArticleInfo: Int) = ArticlesInfo.fetchArticleInfoById(idArticleInfo)

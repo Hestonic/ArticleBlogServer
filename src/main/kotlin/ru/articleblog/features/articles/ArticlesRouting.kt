@@ -21,5 +21,13 @@ fun Application.configureArticlesRouting() {
         get("/api/categories") {
             ArticlesController.getAllCategories(call)
         }
+
+        delete("/api/article/delete/{id}") {
+            ArticlesController.deleteArticle(call)
+        }
+
+        put("/api/article/update/{id}") {
+            ArticlesController.updateArticle(call)
+        }
     }
 }

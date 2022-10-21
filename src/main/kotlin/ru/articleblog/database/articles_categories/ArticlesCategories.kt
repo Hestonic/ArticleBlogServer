@@ -10,7 +10,7 @@ object ArticlesCategories : Table("articles_categories") {
     private val idArticle = ArticlesCategories.integer("id_article")
     private val idCategory = ArticlesCategories.integer("id_category")
 
-    fun insert(articlesCategoriesDTO: ArticlesCategoriesDTO) {
+    fun insertArticlesCategories(articlesCategoriesDTO: ArticlesCategoriesDTO) {
         transaction {
             ArticlesCategories.insert {
                 it[id] = articlesCategoriesDTO.id
