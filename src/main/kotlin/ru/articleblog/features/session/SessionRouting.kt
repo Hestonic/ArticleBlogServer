@@ -6,7 +6,7 @@ import io.ktor.server.routing.*
 fun Application.configureSessionRouting() {
 
     routing {
-        post("/api/session") {
+        get("/api/session") {
             SessionController.getLogin(call)
         }
     }
